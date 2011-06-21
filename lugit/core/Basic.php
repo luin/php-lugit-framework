@@ -144,7 +144,7 @@ class Basic
         if (is_array($callback)) return $callback;
 
         if (function_exists($callback)) return $callback;
-        elseif (strpos($function_name, '::')) return explode('::', $function_name);
+        elseif (strpos($callback, '::')) return explode('::', $callback);
         elseif ($className && method_exists($className, $callback)) return array($className, $callback);
 
         return null;

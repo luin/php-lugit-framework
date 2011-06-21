@@ -1,10 +1,6 @@
 <?php
 
-define('ROOT_URL', 'http://127.0.0.1/');
-
-define('SALT', 'dsfaTJEIOFddsf3ff');
-define('STATIC_PATH', '/static/');
-define('DEBUG_MODE', true);
+define('SALT', 'put some random text here to use AuthModule');
 
 require '../lugit/lugit.php';
 

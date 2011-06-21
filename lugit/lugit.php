@@ -47,7 +47,6 @@ class Lugit
         define('LUGIT_ROOT', __DIR__);
         if (!defined('ERROR_PAGE')) define('ERROR_PAGE', './views/error.phtml');
         if (!defined('DEBUG_MODE')) define('DEBUG_MODE', false);
-        if (!defined('STATIC_PATH')) define('STATIC_PATH', '/static/');
         if (!defined('AUTO_ESCAPE')) define('AUTO_ESCAPE', true);
 
 

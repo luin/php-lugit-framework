@@ -18,7 +18,7 @@ class FilterModule extends Singleton
      * @param mixed $data 要处理的数据
      * @return mixed 处理后的数据
      */
-    public function applyFilter($filter, $data)
+    public function applyFilter($data, $filter)
     {
         if (is_array($data)) {
             foreach ($data as $key => &$v) {
@@ -47,21 +47,16 @@ class FilterModule extends Singleton
      * @param mixed $data
      * @return mixed 处理后的数据
      */
-    public function applyFilters($filters, $data)
+    public function applyFilters($data, $filters)
     {
         if (is_array($filters)) {
             foreach ($filters as $filter) {
-                $data = $this->applyFilter($filter, $data);
+                $data = $this->applyFilter($data, $filter);
             }
         } else {
             throw new exception('applyFilters() need first param to be a array.');
         }
         return $data;
-    }
-
-
-    public static function ()
-    {
     }
 
 
