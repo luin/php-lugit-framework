@@ -1,0 +1,6 @@
+/app/controllers/*.php
+/app/controllers/modules/*.php
+/app/forms/*.php
+/app/views/*/*.phtml
+/app/.htaccess
+.DS_Store
