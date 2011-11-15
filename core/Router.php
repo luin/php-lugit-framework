@@ -38,6 +38,7 @@ class Router extends Singleton
                 $array_urlPath = explode('/', $this->url_path);
             }
         }
+
         $this->controllerName = isset($array_urlPath[0]) ? strtolower($array_urlPath[0]) : 'index';
         $this->actionName = isset($array_urlPath[1]) ? strtolower($array_urlPath[1]) : 'index';
 
@@ -67,10 +68,8 @@ class Router extends Singleton
             foreach ($this->array_parameter as $v) {
                 $url .= '/' . $v;
             }
-            if (strpos($v, '.') === false) $url .= '/';
-        } else {
-            $url .= '/';
         }
+
         if ($this->url_get) {
             $url .= '?' . $this->url_get;
         }
