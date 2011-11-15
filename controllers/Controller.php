@@ -18,6 +18,7 @@ abstract class Controller
 
     public function __get($key)
     {
+        $key = ucfirst(strtolower($key));
         if (class_exists($key . 'Module')) {
             return Singleton::getInstance($key . 'Module');
         } else {

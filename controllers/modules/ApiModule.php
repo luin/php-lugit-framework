@@ -3,6 +3,7 @@ class ApiModule extends Singleton
 {
     private $authModule;
     private $callback;
+    private $defaultContentType = 'array';
 
     protected function __construct()
     {
@@ -12,7 +13,14 @@ class ApiModule extends Singleton
 
     public function setCallback($callback)
     {
-        $this->$callback = $callback;
+        $this->callback = $callback;
+        return $this;
+    }
+
+    public function setDefaultContentType($type)
+    {
+        $this->defaultContentType = $type;
+        return $this;
     }
 
 
@@ -33,22 +41,22 @@ class ApiModule extends Singleton
     }
 
 
-    public function post($uri, $parameters = array(), $basicAuth = true)
+    public function post($uri, $parameters = array(), $basicAuth = true, $contentType = '')
     {
-        return $this->_callApi($uri, $basicAuth, $parameters, 'post');
+        if(!$contentType) $contentType = $this->defaultContentType;
+
+        return $this->_callApi($uri, $basicAuth, $parameters, 'post', $contentType);
     }
 
 
-    private function _callApi($uri, $basicAuth = true, $parameters = array(), $method = 'get')
+    private function _callApi($uri, $basicAuth = true, $parameters = array(), $method = 'get', $contentType = '')
     {
         $ch = curl_init();
 
         curl_setopt($ch, CURLOPT_URL, API_URL . $uri);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-
         //whether need HTTP BASIC AUTH
-        if ($basicAuth &&
-            isset($this->authModule->username) && isset($this->authModule->password)) {
+        if ($basicAuth && $this->authModule->username && $this->authModule->password) {
             curl_setopt($ch, CURLOPT_USERPWD,
                 "{$this->authModule->username}:{$this->authModule->password}");
             curl_setopt($ch, CURLOPT_HTTPAUTH, CURLAUTH_BASIC);
@@ -56,6 +64,17 @@ class ApiModule extends Singleton
 
         if ($method == 'post') {
             curl_setopt($ch, CURLOPT_POST, 1 );
+
+            if($contentType == 'json' && is_array($parameters)) {
+                $parameters = json_encode($parameters);
+            }
+
+            if($contentType) {
+                if($contentType == 'xml')
+                    curl_setopt($ch, CURLOPT_HTTPHEADER, array('Content-Type: text/xml'));
+                elseif($contentType == 'json')
+                    curl_setopt($ch, CURLOPT_HTTPHEADER, array('Content-Type: application/json'));
+            }
             curl_setopt($ch, CURLOPT_POSTFIELDS, $parameters);
         }
 
@@ -69,8 +88,7 @@ class ApiModule extends Singleton
         $info   = curl_getinfo($ch);
         curl_close($ch);
 
-
-        if (isset($this->callback)) {
+        if ($this->callback) {
             return call_user_func_array($this->callback,
                 array($output, $info['http_code']));
         } else {

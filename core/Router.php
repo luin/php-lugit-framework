@@ -104,8 +104,8 @@ class Router extends Singleton
         } else if (method_exists(Lugit::$controller, DEFAULT_ACTION_NAME . 'Action')) {
                 //方法不存在，调用默认方法
                 $view_actionName = DEFAULT_ACTION_NAME;
-                Lugit::$controller->{DEFAULT_ACTION_NAME . 'Action'}();
-            } else {
+                Lugit::$controller->{DEFAULT_ACTION_NAME . 'Action'}($this->actionName);
+        } else {
             //方法不存在 且 默认方法不存在，返回404错误
             throw new NotFoundException();
         }

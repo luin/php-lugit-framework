@@ -51,7 +51,7 @@ class SessionModule extends Singleton
 
     public function sessionDestroy()
     {
-        session_destroy();
+        @session_destroy();
         setcookie(session_name(), '', time()-3600);
         $_SESSION = array();
     }

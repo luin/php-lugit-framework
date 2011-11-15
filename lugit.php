@@ -19,8 +19,8 @@ function __autoLoad($className)
         if (file_exists(__DIR__ . "/controllers/modules/$className.php")) {
             include __DIR__ . "/controllers/modules/$className.php";
             return true;
-        } elseif (file_exists("./modules/$className.php")) {
-            include "./modules/$className.php";
+        } elseif (file_exists("./controllers/modules/$className.php")) {
+            include "./controllers/modules/$className.php";
             return true;
         }
     } elseif ('Exception' === substr($className, -9)) {
@@ -45,8 +45,11 @@ class Lugit
     private static function initConst()
     {
         define('LUGIT_ROOT', __DIR__);
-        if (!defined('ERROR_PAGE')) define('ERROR_PAGE', './views/error.phtml');
+
+        
         if (!defined('DEBUG_MODE')) define('DEBUG_MODE', false);
+
+        //是否自动对request获得的内容转义
         if (!defined('AUTO_ESCAPE')) define('AUTO_ESCAPE', true);
 
 
@@ -54,7 +57,7 @@ class Lugit
         if (!defined('DEFAULT_CONTROLLER_NAME')) define('DEFAULT_CONTROLLER_NAME', 'Adapt');
 
         //默认Action
-        if (!defined('DEFAULT_ACTION_NAME')) define('DEFAULT_ACTION_NAME', 'Adapt');
+        if (!defined('DEFAULT_ACTION_NAME')) define('DEFAULT_ACTION_NAME', 'adapt');
 
     }
 
@@ -65,7 +68,7 @@ class Lugit
 
         date_default_timezone_set('Etc/GMT-8');
 
-        error_reporting(DEBUG_MODE ? E_ALL : E_ALL ^ E_NOTICE);
+        error_reporting(DEBUG_MODE ? E_ALL : E_ALL ^ E_NOTICE ^ E_WARNING);
 
         set_exception_handler(array('Basic', 'exceptionHandle'));
 
