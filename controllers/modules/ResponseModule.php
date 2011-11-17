@@ -223,7 +223,7 @@ class ResponseModule extends Singleton
         }
     }
     
-    public function redirectToSelf($additon)
+    public function refresh($additon)
     {
     	$instance = Singleton::getInstance('Router');
     	$this->redirect($instance->getUrl() . $additon);

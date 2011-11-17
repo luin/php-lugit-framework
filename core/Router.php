@@ -70,6 +70,9 @@ class Router extends Singleton
             }
         }
 
+        if(!$url) {
+            $url = '/';
+        }
         if ($this->url_get) {
             $url .= '?' . $this->url_get;
         }
