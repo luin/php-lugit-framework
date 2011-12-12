@@ -20,22 +20,15 @@ class FilterModule extends Singleton
      */
     public function applyFilter($data, $filter)
     {
+        if(!$filter) return $data;
+
         if (is_array($data)) {
             foreach ($data as $key => &$v) {
-                $v = $this->_applyStringFilter($filter, $v);
+                $v = $this->applyFilter($v, $filter);
             }
         }
 
-        if (is_array($filter)) {
-            $callback = $filter[0];
-            if (!$callback) return $data;
-            $filter[0] = $data;
-            $data = $filter;
-        } else {
-            $callback = $filter;
-            $data = array($data);
-        }
-        return call_user_func_array(Basic::resolveCallback($callback, __CLASS__), $data);
+        return call_user_func_array(Basic::resolveCallback($filter, __CLASS__), $data);
     }
 
 
@@ -54,7 +47,7 @@ class FilterModule extends Singleton
                 $data = $this->applyFilter($data, $filter);
             }
         } else {
-            throw new exception('applyFilters() need first param to be a array.');
+            $data = $this->applyFilter($data, $filter);
         }
         return $data;
     }

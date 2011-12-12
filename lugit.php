@@ -1,7 +1,7 @@
 <?php
 
 require __DIR__ . '/controllers/Controller.php';
-require __DIR__ . '/views/ViewLoader.php';
+require __DIR__ . '/views/View.php';
 
 function __autoLoad($className)
 {
@@ -10,8 +10,8 @@ function __autoLoad($className)
         if (file_exists(__DIR__ . "/views/helpers/$className.php")) {
             include __DIR__ . "/views/helpers/$className.php";
             return true;
-        } elseif (file_exists("./helpers/$className.php")) {
-            include "./helpers/$className.php";
+        } elseif (file_exists("./views/helpers/$className.php")) {
+            include "./views/helpers/$className.php";
             return true;
         }
     } elseif ('Module' === substr($className, -6)) {
@@ -24,7 +24,7 @@ function __autoLoad($className)
             return true;
         }
     } elseif ('Exception' === substr($className, -9)) {
-        include __DIR__ . "/core/Exceptions.php";
+        include_once __DIR__ . "/core/Exceptions.php";
         return true;
     } else {
         //auto load core
@@ -40,7 +40,7 @@ function __autoLoad($className)
 class Lugit
 {
     public static $controller;
-    public static $viewLoader;
+    public static $view;
 
     private static function initConst()
     {

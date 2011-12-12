@@ -85,7 +85,6 @@ class InternalErrorException extends HttpException {
 
 }
 
-
 class LugitException extends RuntimeException {
 
     protected $_attributes = array();
@@ -125,6 +124,17 @@ class MissingControllerException extends LugitException {
 
 class ApiException extends LugitException {
     protected $_messageTemplate = 'Curl error: %s.';
+
+    public function __construct($message, $code = 500)
+    {
+        parent::__construct($message, $code);
+    }
+
+
+}
+
+class TemplateException extends LugitException {
+    protected $_messageTemplate = 'Block %s is not closed';
 
     public function __construct($message, $code = 500)
     {

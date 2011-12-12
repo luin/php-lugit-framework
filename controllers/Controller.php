@@ -9,9 +9,9 @@ abstract class Controller
     public function __construct($parameters = array())
     {
         $this->parameters = $parameters;
-        $router = Singleton::getInstance('Router');
-        $this->controllerName = $router->controllerName;
-        $this->actionName = $router->actionName;
+        $this->router = Singleton::getInstance('Router');
+        $this->controllerName = $this->router->controllerName;
+        $this->actionName = $this->router->actionName;
         $this->init();
     }
 
@@ -51,15 +51,7 @@ abstract class Controller
 
     public function render($viewPath, $exit = true)
     {
-        $controller_output = ob_get_clean();
-        Lugit::$viewLoader = new viewLoader(Lugit::$controller->getVars(),
-            "./views/scripts/$viewPath.phtml");
-
-        if ($exit) {
-            Lugit::$viewLoader->render();
-            echo $controller_output;
-            exit;
-        }
+        $router->template = "./views/scripts/$viewPath.phtml";
     }
 
 

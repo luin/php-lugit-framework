@@ -113,11 +113,13 @@ class Router extends Singleton
         }
         $controller_output = ob_get_clean();
 
-        if (empty(Lugit::$viewLoader)) {
-            Lugit::$viewLoader = new viewLoader(Lugit::$controller->getVars(),
-                './views/scripts/' . $view_controllerName . '/' . $view_actionName . '.phtml');
+        if (empty(Lugit::$view)) {
+            Lugit::$view = new View(Lugit::$controller->getVars());
         }
-        Lugit::$viewLoader->render();
+        $template = isset($this->template) ? $this->template :
+            './views/scripts/' . $view_controllerName . '/' . $view_actionName . '.phtml';
+
+        Lugit::$view->render($template);
         echo $controller_output;
     }
 

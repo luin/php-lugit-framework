@@ -39,8 +39,8 @@ class Basic
                 'url' => Singleton::getInstance('Router')->getUrl()
             );
             if ($error_file = self::_getErrorFilePath($code)) {
-                Lugit::$viewLoader = new viewLoader($var_list, $error_file);
-                Lugit::$viewLoader->render();
+                Lugit::$view = new View($var_list);
+                Lugit::$view->render($error_file);
             } else {
                 echo 'No error page is found.<pre>';
                 print_r($var_list);

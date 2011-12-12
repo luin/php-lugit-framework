@@ -1,5 +1,5 @@
 <?php
-class FromHelper extends Singleton
+class FormHelper extends Singleton
 {
     private $labelList = array(); 
     private function _parseProperties($properties)
