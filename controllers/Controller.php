@@ -51,7 +51,7 @@ abstract class Controller
 
     public function render($viewPath, $exit = true)
     {
-        $router->template = "./views/scripts/$viewPath.phtml";
+        $this->router->template = "./views/scripts/$viewPath.phtml";
     }
 
 
